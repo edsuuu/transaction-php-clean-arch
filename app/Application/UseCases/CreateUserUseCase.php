@@ -5,11 +5,12 @@ namespace App\Application\UseCases;
 use App\Domain\Entities\UserEntity;
 use App\Domain\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
+use DomainException;
 
-class CreateUserUseCase
+readonly class CreateUserUseCase
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository
+        private UserRepositoryInterface $userRepository
     ) {}
 
     public function execute(object $data): UserEntity
@@ -27,8 +28,15 @@ class CreateUserUseCase
             password: $hashedPassword
         );
 
-        $this->userRepository->save($user);
+        // todo: adicionar exceptions personalidazas e converter para http no handle
+        if ($this->userRepository->existsByEmail($user->getEmail())) {
+            throw new DomainException('Email already exists');
+        }
 
-        return $user;
+        if ($this->userRepository->existsByDocument($user->getFormattedDocument())) {
+            throw new DomainException('Document already exists');
+        }
+
+        return $this->userRepository->save($user);
     }
 }
