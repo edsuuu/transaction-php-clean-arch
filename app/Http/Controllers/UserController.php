@@ -19,10 +19,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
-        $user = $this->registerUserUseCase->execute((object) $request->validated());
+        $user = $this->registerUserUseCase->execute(data: (object) $request->validated());
 
-        return new UserResource($user)
+        return new UserResource(resource: $user)
             ->response()
-            ->setStatusCode(201);
+            ->setStatusCode(code: 201);
     }
 }

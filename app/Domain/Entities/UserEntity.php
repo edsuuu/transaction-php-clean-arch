@@ -21,6 +21,8 @@ class UserEntity
         private readonly string  $phone,
         private readonly string  $birthDate,
         private readonly ?string $password = null,
+        private int              $failedLoginAttempts = 0,
+        private ?string          $blockedAt = null,
     )
     {
         $this->firstName = $this->formatName($firstName);
@@ -28,6 +30,21 @@ class UserEntity
         $this->email = strtolower($email);
         $this->document = $this->sanitizeDocument($document);
         $this->customerType = $this->detectCustomerType($this->document);
+    }
+
+    public function getFailedLoginAttempts(): int
+    {
+        return $this->failedLoginAttempts;
+    }
+
+    public function getBlockedAt(): ?string
+    {
+        return $this->blockedAt;
+    }
+
+    public function isBlocked(): bool
+    {
+        return !is_null($this->blockedAt);
     }
 
     public function getId(): ?int

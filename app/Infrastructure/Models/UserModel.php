@@ -30,6 +30,8 @@ class UserModel extends Authenticatable
         'birth_date',
         'customer_type',
         'password',
+        'failed_login_attempts',
+        'blocked_at',
     ];
 
     /**

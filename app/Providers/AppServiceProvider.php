@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domain\Repositories\TransactionRepositoryInterface;
 use App\Domain\Repositories\UserRepositoryInterface;
+use App\Infrastructure\Persistence\TransactionRepository;
 use App\Infrastructure\Persistence\UserRepository;
 use App\Domain\Repositories\AccountRepositoryInterface;
 use App\Infrastructure\Persistence\AccountRepository;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
+        $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
     }
 
     /**

@@ -6,6 +6,10 @@ use App\Domain\Entities\AccountEntity;
 use App\Domain\Repositories\AccountRepositoryInterface;
 use App\Infrastructure\Models\AccountModel;
 
+use App\Infrastructure\Models\LedgerEntryModel;
+use App\Infrastructure\Models\ReferenceValueModel;
+use Illuminate\Support\Facades\DB;
+
 class AccountRepository implements AccountRepositoryInterface
 {
     public function save(AccountEntity $account): AccountEntity
@@ -32,5 +36,26 @@ class AccountRepository implements AccountRepositoryInterface
             id: $accountModel->id,
             userId: $accountModel->user_id
         );
+    }
+
+    public function getBalance(string $accountId): float
+    {
+        $debitId = ReferenceValueModel::query()->where('code', 'debit')->first()->id;
+        $creditId = ReferenceValueModel::query()->where('code', 'credit')->first()->id;
+
+        $balance = LedgerEntryModel::query()
+            ->where('account_id', $accountId)
+            ->select(columns: DB::raw(value: "
+                SUM(
+                    CASE
+                        WHEN entry_type_id = {$creditId} THEN amount
+                        ELSE -amount
+                    END
+                ) as balance
+            "))
+            ->first()
+            ->balance;
+
+        return (float)($balance ?? 0.0);
     }
 }

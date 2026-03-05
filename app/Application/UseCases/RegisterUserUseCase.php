@@ -23,8 +23,8 @@ readonly class RegisterUserUseCase
      */
     public function execute(object $data): UserEntity
     {
-        return DB::transaction(function () use ($data) {
-            $hashedPassword = Hash::make($data->password);
+        return DB::transaction(callback: function () use ($data) {
+            $hashedPassword = Hash::make(value: $data->password);
 
             $user = new UserEntity(
                 id: null,
@@ -37,22 +37,22 @@ readonly class RegisterUserUseCase
                 password: $hashedPassword
             );
 
-            if ($this->userRepository->existsByEmail($user->getEmail())) {
+            if ($this->userRepository->existsByEmail(email: $user->getEmail())) {
                 throw new DomainException('Email already exists');
             }
 
-            if ($this->userRepository->existsByDocument($user->getFormattedDocument())) {
+            if ($this->userRepository->existsByDocument(document: $user->getFormattedDocument())) {
                 throw new DomainException('Document already exists');
             }
 
-            $createdUser = $this->userRepository->save($user);
+            $createdUser = $this->userRepository->save(user: $user);
 
             $account = new AccountEntity(
                 id: null,
                 userId: $createdUser->getId()
             );
 
-            $this->accountRepository->save($account);
+            $this->accountRepository->save(account: $account);
 
             return $createdUser;
         });
