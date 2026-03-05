@@ -92,15 +92,11 @@ class UserEntity
 
     public function detectCustomerType(string $document): string
     {
-        if (strlen($document) === 11) {
-            return 'common';
-        }
-
         if (strlen($document) === 14) {
             return 'merchant';
         }
 
-        throw new DomainException('Documento inválido');
+        return 'common';
     }
 
     public function getFormattedDocument(): string

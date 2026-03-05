@@ -4,6 +4,7 @@ namespace App\Infrastructure\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -53,5 +54,10 @@ class UserModel extends Authenticatable
             'password' => 'hashed',
             'birth_date' => 'date',
         ];
+    }
+
+    public function account(): HasOne
+    {
+        return $this->hasOne(AccountModel::class, 'user_id');
     }
 }

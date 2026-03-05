@@ -5,12 +5,11 @@ namespace App\Domain\Entities;
 readonly class AccountEntity
 {
     public function __construct(
-        private ?int  $id,
-        private int   $userId,
-        private float $balance
+        private ?string $id,
+        private int     $userId,
     ) {}
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -18,10 +17,5 @@ readonly class AccountEntity
     public function getUserId(): int
     {
         return $this->userId;
-    }
-
-    public function getBalance(): float
-    {
-        return $this->balance;
     }
 }
