@@ -1,11 +1,140 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-nu-purple: #820ad1;
+    --color-nu-purple-dark: #6b08ac;
+    --color-nu-purple-light: #a855f7;
+    --color-nu-bg: #1a0533;
+    --color-nu-card: #241040;
+    --color-nu-text: #e2d9f3;
+    --color-nu-muted: #9d8cbf;
+    --color-nu-white: #ffffff;
+    --color-nu-green: #00c4aa;
+    --color-nu-red: #f94d4d;
+    --font-sans: 'Inter', sans-serif;
+}
+
+@layer base {
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        font-family: 'Inter', sans-serif;
+        font-feature-settings: 'cv11', 'ss01';
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+        background-color: #1a0533;
+        color: #e2d9f3;
+        min-height: 100vh;
+    }
+}
+
+@layer components {
+    .nu-card {
+        background-color: #241040;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid rgba(130, 10, 209, 0.2);
+    }
+
+    .nu-input {
+        width: 100%;
+        background-color: #2d1555;
+        border: 1px solid rgba(130, 10, 209, 0.3);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        color: #e2d9f3;
+        font-size: 0.875rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+    .nu-input::placeholder {
+        color: #9d8cbf;
+    }
+
+    .nu-input:focus {
+        border-color: #820ad1;
+        box-shadow: 0 0 0 3px rgba(130, 10, 209, 0.2);
+    }
+
+    .nu-input.error {
+        border-color: #f94d4d;
+    }
+
+    .nu-btn {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+        background-color: #820ad1;
+        color: #ffffff;
+        font-size: 0.875rem;
+        font-weight: 700;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        letter-spacing: 0.025em;
+    }
+
+    .nu-btn:hover {
+        background-color: #6b08ac;
+        box-shadow: 0 4px 20px rgba(130, 10, 209, 0.4);
+    }
+
+    .nu-btn:active {
+        transform: scale(0.98);
+    }
+
+    .nu-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .nu-btn-ghost {
+        background-color: transparent;
+        color: #a855f7;
+        border: 1px solid rgba(130, 10, 209, 0.4);
+    }
+
+    .nu-btn-ghost:hover {
+        background-color: rgba(130, 10, 209, 0.1);
+        box-shadow: none;
+    }
+
+    .nu-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #9d8cbf;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
+    }
+
+    .nu-error {
+        color: #f94d4d;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .nu-badge-credit {
+        background-color: rgba(0, 196, 170, 0.15);
+        color: #00c4aa;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .nu-badge-debit {
+        background-color: rgba(249, 77, 77, 0.15);
+        color: #f94d4d;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
 }
