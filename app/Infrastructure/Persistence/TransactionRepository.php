@@ -14,10 +14,10 @@ class TransactionRepository implements TransactionRepositoryInterface
     public function createTransfer(string $payerAccountId, string $payeeAccountId, float $amount): TransactionEntity
     {
         return DB::transaction(callback: function () use ($payerAccountId, $payeeAccountId, $amount) {
-            $transferTypeId = ReferenceValueModel::query()->where('code', 'transfer')->first()->id;
-            $completedStatusId = ReferenceValueModel::query()->where('code', 'completed')->first()->id;
-            $debitTypeId = ReferenceValueModel::query()->where('code', 'debit')->first()->id;
-            $creditTypeId = ReferenceValueModel::query()->where('code', 'credit')->first()->id;
+            $transferTypeId = ReferenceValueModel::query()->where('code', 'transfer')->value('id');
+            $completedStatusId = ReferenceValueModel::query()->where('code', 'completed')->value('id');
+            $debitTypeId = ReferenceValueModel::query()->where('code', 'debit')->value('id');
+            $creditTypeId = ReferenceValueModel::query()->where('code', 'credit')->value('id');
 
             $transaction = TransactionModel::query()->create(attributes: [
                 'transaction_type_id' => $transferTypeId,
@@ -50,9 +50,9 @@ class TransactionRepository implements TransactionRepositoryInterface
     public function createDeposit(string $accountId, float $amount): TransactionEntity
     {
         return DB::transaction(callback: function () use ($accountId, $amount) {
-            $depositTypeId = ReferenceValueModel::query()->where('code', 'deposit')->orWhere('code', 'deposito')->first()->id;
-            $completedStatusId = ReferenceValueModel::query()->where('code', 'completed')->first()->id;
-            $creditTypeId = ReferenceValueModel::query()->where('code', 'credit')->first()->id;
+            $depositTypeId = ReferenceValueModel::query()->where('code', 'deposit')->orWhere('code', 'deposito')->value('id');
+            $completedStatusId = ReferenceValueModel::query()->where('code', 'completed')->value('id');
+            $creditTypeId = ReferenceValueModel::query()->where('code', 'credit')->value('id');
 
             $transaction = TransactionModel::query()->create(attributes: [
                 'transaction_type_id' => $depositTypeId,

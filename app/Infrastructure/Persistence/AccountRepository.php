@@ -28,7 +28,7 @@ class AccountRepository implements AccountRepositoryInterface
     {
         $accountModel = AccountModel::query()->where('user_id', $userId)->first();
 
-        if (!$accountModel) {
+        if (is_null($accountModel)) {
             return null;
         }
 
@@ -40,8 +40,8 @@ class AccountRepository implements AccountRepositoryInterface
 
     public function getBalance(string $accountId): float
     {
-        $debitId = ReferenceValueModel::query()->where('code', 'debit')->first()->id;
-        $creditId = ReferenceValueModel::query()->where('code', 'credit')->first()->id;
+//        $debitId = ReferenceValueModel::query()->where('code', 'debit')->value('id');
+        $creditId = ReferenceValueModel::query()->where('code', 'credit')->value('id');
 
         $balance = LedgerEntryModel::query()
             ->where('account_id', $accountId)
@@ -53,8 +53,7 @@ class AccountRepository implements AccountRepositoryInterface
                     END
                 ) as balance
             "))
-            ->first()
-            ->balance;
+            ->value('balance');
 
         return (float)($balance ?? 0.0);
     }
